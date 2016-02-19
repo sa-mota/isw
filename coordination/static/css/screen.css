@@ -1,0 +1,181 @@
+{% load staticfiles %}
+
+@charset "UTF-8";
+
+/***********************************************************************************************************************
+Containers
+***********************************************************************************************************************/
+* {
+    font-size:  1.5vw;
+    margin:     0;
+    padding:    0;
+}
+
+html {
+    min-height: 100vh;
+    position:   relative;
+}
+
+/***********************************************************************************************************************
+Content
+***********************************************************************************************************************/
+#content {
+    align:          justify;
+    color:          #666;
+    float:          left;
+    line-height:    1.8;
+    margin:         0 0 0 20vw;
+    padding:        0 5vw 10vh 5vw;
+    position:       relative;
+}
+
+/***********************************************************************************************************************
+Footer
+***********************************************************************************************************************/
+#footer {
+    background-color:   #aaa;
+	bottom:             0;
+    color:              #fff;
+    font-size:          100%;
+    height:             1vh;
+    left:               0;
+	position:           absolute;
+	width:              100vw;
+}
+
+/***********************************************************************************************************************
+Header
+***********************************************************************************************************************/
+h2 {
+    background-color:   #fff;
+    color:              #666;
+    font-size:          150%;
+    line-height:        1.25;
+    padding:            3vh 0 1vh 0;
+    width:              70vw;
+}
+
+#header h1 {
+    background-color:   #fff;
+    color:              #06646e;
+    font-size:          250%;
+    height:             15vh;
+    line-height:        1.25;
+    padding:            0 5vw;
+    margin:             0 0 0 20vw;
+    width:              70vw;
+}
+
+#header img {
+    background-color:   #fff;
+    padding:            1vh 5vw;
+    position:           absolute;
+    width:              10vw;
+}
+
+/***********************************************************************************************************************
+List
+***********************************************************************************************************************/
+ul {
+    color:              #666;
+    padding:            1vh 0 0 2vw;
+}
+
+/***********************************************************************************************************************
+Navigation bar
+***********************************************************************************************************************/
+#navigation_bar {
+    background: #fff;
+    bottom:     0;
+    float:      left;
+    padding:    0;
+    position:   absolute;
+    top:        15vh;
+    width:      20vw;
+}
+
+#navigation_bar,
+#navigation_bar a,
+#navigation_bar ul,
+#navigation_bar li {
+    border:         0;
+    font-weight:    bold;
+    list-style:     none;
+    margin:         0;
+    padding:        0;
+}
+
+#navigation_bar a {
+    text-decoration:    none;
+}
+
+#navigation_bar > ul > li {
+    margin: 0 0 1vh 0;
+}
+
+#navigation_bar > ul > li:last-child {
+    margin: 0;
+}
+
+#navigation_bar > ul > li > a {
+    background:     #aaa;
+    border-radius:  0 1vh 1vh 0;
+    color:          #fff;
+    display:        block;
+}
+
+#navigation_bar > ul > li > a:hover {
+    background:     #06646e;
+}
+
+#navigation_bar > ul > li > a > span {
+    display:    block;
+    padding:    1vh 1vw;
+    font-size:  100%;
+}
+
+#navigation_bar > ul > li.active > a {
+    background:     #06646e;
+}
+
+#navigation_bar > ul > li.has-sub > a span {
+    background: url(../images/navigation-bar/icon-plus.png) 97% center no-repeat;
+}
+
+#navigation_bar > ul > li.has-sub.active > a span {
+    background: url(../images/navigation-bar/icon-minus.png) 97% center no-repeat;
+}
+
+#navigation_bar ul ul {
+    display:    none;
+    padding:    1vh 2vw;
+}
+
+#navigation_bar ul ul a {
+    color:      #666;
+    display:    block;
+}
+
+#navigation_bar ul ul a:hover {
+    color:  #06646e ;
+}
+
+#navigation_bar ul ul a > span {
+    font-size:  80%;
+}
+
+/***********************************************************************************************************************
+Table
+***********************************************************************************************************************/
+table.call #logo {
+    padding:            0 0 0 3vw;
+    width:              12vw;
+}
+
+table.call #title {
+    color:              #06646e;
+    font-size:          200%;
+    line-height:        1.25;
+    padding:            0 0 0 0;
+    width:              55vw;
+}
