@@ -1,2 +1,5 @@
 # Built files
 *.pyc
+
+# Project directories
+.idea/
