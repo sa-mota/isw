@@ -1,6 +1,9 @@
 # Built files
 *.pyc
 
+# Data directories
+sql/
+
 # Project directories
 .idea/
 
