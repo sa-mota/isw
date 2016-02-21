@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.db import models
 
-app_label = 'sicpe'
+app_label = 'coordination'
 
 class AcademicDegree(models.Model):
     name = models.CharField(
@@ -146,8 +146,8 @@ class ClassroomDegree(models.Model):
         ordering = [
             'id',
         ]
-        verbose_name = 'Degree'
-        verbose_name_plural = 'Degrees'
+        verbose_name = 'Classroom degree'
+        verbose_name_plural = 'Classroom degrees'
 
     def __unicode__(self):
         return u'{:d}'.format(self.id)
@@ -351,7 +351,7 @@ class Month(models.Model):
     class Meta:
         app_label = app_label
         ordering = [
-            'name',
+            'id',
         ]
         verbose_name = 'Month'
         verbose_name_plural = 'Months'
