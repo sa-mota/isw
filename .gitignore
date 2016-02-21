@@ -3,3 +3,6 @@
 
 # Project directories
 .idea/
+
+# Settings
+settings.py
