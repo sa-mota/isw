@@ -70,6 +70,24 @@ Content
 }
 
 /***********************************************************************************************************************
+Select
+***********************************************************************************************************************/
+select {
+    border:     1px solid #aaa;
+    background: transparent;
+    color:      #333838;
+    font-size:  100%;
+    margin:     0 0 5px 0;
+    min-width:  30px;
+    padding:    5px 5px;
+}
+
+select option {
+    color:      #333838;
+    font-size:  70%;
+}
+
+/***********************************************************************************************************************
 Footer
 ***********************************************************************************************************************/
 .footer-distributed {
@@ -208,6 +226,24 @@ Footer
 }
 
 /***********************************************************************************************************************
+Form
+***********************************************************************************************************************/
+a.form-icon,
+button.form-icon {
+    background-color:   #333838;
+	border:             none;
+	color:              #fff;
+	cursor:             pointer;
+	display:            inline-block;
+    font-size:          25px;
+	height:             40px;
+	line-height:        40px;
+	margin:             20px 5px 5px 0;
+	text-align:         center;
+	width:              40px;
+}
+
+/***********************************************************************************************************************
 Header
 ***********************************************************************************************************************/
 #header {
@@ -318,4 +354,72 @@ No show
 ***********************************************************************************************************************/
 .no_show {
     display:    none;
+}
+
+/***********************************************************************************************************************
+Table
+***********************************************************************************************************************/
+table.report {
+    border-collapse:    collapse;
+    color:              #333838;
+    font-size:          100%;
+    width:              100%;
+}
+
+table.report a {
+    color:              #06646e;
+    text-decoration:    none;
+}
+
+table.report td,
+table.report th {
+    font-size:      100%;
+    font-weight:    normal;
+    padding:        5px;
+    width:          10%;
+}
+
+table.report td.detail {
+    width:  80%;
+}
+
+table.report td.title,
+             td.subtitle {
+    background-color:   #fff;
+    color:              #333838;
+    padding:            0;
+    text-align:         left;
+}
+
+table.report td.title {
+    font-size:  200%;
+}
+
+table.report td.subtitle {
+    font-size:  150%;
+}
+
+table.report td.long_column,
+table.report th.long_column {
+    width:  50%;
+}
+
+table.report th.detail {
+    font-size:  120%;
+    width:      20%;
+}
+
+table.report tr.data:nth-child(even) {
+    background-color: eee;
+}
+
+table.report tr.data:nth-child(odd) {
+    background-color: #fff;
+}
+
+table.report tr.header {
+    background-color:   #06646e;
+    color:              #fff;
+    font-size:          100%;
+    font-weight:        normal;
 }

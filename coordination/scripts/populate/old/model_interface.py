@@ -1,4 +1,6 @@
 # coding=utf-8
+import django
+django.setup()
 from django.core.exceptions import ObjectDoesNotExist
 
 from coordination.models import *
@@ -24,11 +26,20 @@ def get_city(name):
 
 def get_classroom_degree(id):
     try:
-        degree = ClassroomDegree.objects.get(id=id)
+        classroom_degree = ClassroomDegree.objects.get(id=id)
     except ObjectDoesNotExist:
-        raise Exception('Grado no encontrado <{:d}>.'.format(id))
+        raise Exception('Grado de grupo no encontrado <{:d}>.'.format(id))
 
-    return degree
+    return classroom_degree
+
+
+def get_classroom_identifier(name):
+    try:
+        classroom_identifier = ClassroomIdentifier.objects.get(name=name)
+    except ObjectDoesNotExist:
+        raise Exception('Identificador de grupo no encontrado <{:d}>.'.format(id))
+
+    return classroom_identifier
 
 
 def get_curricular_axis(code):
@@ -64,6 +75,15 @@ def get_gender(code):
     return gender
 
 
+def get_generation(curricular_map, quarter):
+    try:
+        generation = Generation.objects.get(curricular_map=curricular_map, quarter=quarter)
+    except ObjectDoesNotExist:
+        raise Exception('Generación no encontrada <{:s}, {:s}>.'.format(curricular_map, quarter))
+
+    return generation
+
+
 def get_month(name):
     try:
         month = Month.objects.get(name=name)
@@ -89,6 +109,15 @@ def get_professor_type(code):
         raise Exception('Tipo de profesor no encontrado <{:s}>.'.format(code))
 
     return professor_type
+
+
+def get_quarter(period, year):
+    try:
+        quarter = Quarter.objects.get(period=period, year=year)
+    except ObjectDoesNotExist:
+        raise Exception('Cuatrimestre no encontrado <{:s}, {:s}>.'.format(period, year))
+
+    return quarter
 
 
 def get_state(name):
