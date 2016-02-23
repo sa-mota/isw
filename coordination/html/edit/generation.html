@@ -1,0 +1,48 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}
+{% if generation.id %}
+Editar Generación
+{% else %}
+Agregar Generación
+{% endif %}
+{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+<form action="{% url "generations-new" %}" method="POST" class="no_print">
+    {% csrf_token %}
+
+    <table class="left">
+        <tr>
+            <td></td>
+            <td>{{ form.curricular_map.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.curricular_map.id_for_label }}">Mapa curricular: </label></td>
+            <td>{{ form.curricular_map }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.quarter.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.quarter.id_for_label }}">Cuatrimestre:</label></td>
+            <td>{{ form.quarter }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit" class="form-icon"><i class="fa fa-plus-square"></i></button>
+                {% if generation.id %}
+                    <a class="form-icon" href="{% url "generations-delete" pk=generation.id %}"><i class="fa fa-trash"></i></a>
+                {% endif %}
+                <a class="form-icon" href="{% url "generations-list" %}"><i class="fa fa-arrow-circle-left"></i></a>
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

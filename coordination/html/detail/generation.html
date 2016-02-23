@@ -1,0 +1,27 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Detalle de Generación{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+{% load staticfiles %}
+<table class="report">
+    <tr>
+        <td colspan="2" class="title">
+            Detalle de Generación
+            <img class="logo" src="{% static 'images/header/logo-small.png' %}" alt="Logo">
+        </td>
+    </tr>
+
+    <tr>
+        <th class="detail">Mapa curricular:</th>
+        <td class="detail">{{ generation.curricular_map }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Cuatrimestre:</th>
+        <td class="detail">{{ generation.quarter }}</td>
+    </tr>
+</table>
+{% endblock %}

@@ -17,8 +17,20 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic.base import TemplateView
 
+import coordination.views
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^isw/calls/logo/$', TemplateView.as_view(template_name='calls/logo.html'), name='coordination-calls-logo'),
+
+    url(r'^sicpe/delete/generation/(?P<pk>\d+)/$', coordination.views.DeleteGenerationView.as_view(), name='generations-delete'),
+
+    url(r'^sicpe/detail/generation/(?P<pk>\d+)/$', coordination.views.GenerationView.as_view(), name='generations-view',),
+
+    url(r'^sicpe/new/generation/$', coordination.views.CreateGenerationView.as_view(), name='generations-new',),
+
+    url(r'^sicpe/list/generation/$', coordination.views.ListGenerationView.as_view(), name='generations-list',),
+
+    url(r'^sicpe/edit/generation/(?P<pk>\d+)/$', coordination.views.UpdateGenerationView.as_view(), name='generations-edit',),
 ]
