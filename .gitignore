@@ -3,6 +3,7 @@
 
 # Data directories
 sql/
+coordination/sgc
 
 # Project directories
 .idea/
