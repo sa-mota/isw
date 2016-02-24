@@ -18,6 +18,18 @@ class CityAdmin(admin.ModelAdmin):
 admin.site.register(City, CityAdmin)
 
 
+class ClassroomAdmin(admin.ModelAdmin):
+    list_display = (
+        'career',
+        'quarter',
+        'degree',
+        'identifier',
+        'leader',
+        'tutor',
+    )
+admin.site.register(Classroom, ClassroomAdmin)
+
+
 class ClassroomDegreeAdmin(admin.ModelAdmin):
     list_display = (
         'id',
@@ -103,6 +115,16 @@ class StateAdmin(admin.ModelAdmin):
         'name',
     )
 admin.site.register(State, StateAdmin)
+
+
+class StudentAdmin(admin.ModelAdmin):
+    list_display = (
+        'registration_number',
+        'name',
+        'status',
+        'generation',
+    )
+admin.site.register(Student, StudentAdmin)
 
 
 class StudentStatusAdmin(admin.ModelAdmin):
