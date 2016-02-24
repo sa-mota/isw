@@ -104,6 +104,10 @@ class Classroom(models.Model):
     career = models.ForeignKey(Career)
     degree = models.ForeignKey('ClassroomDegree')
     identifier = models.ForeignKey('ClassroomIdentifier')
+    leader = models.OneToOneField(
+        'Student',
+        related_name='leader'
+    )
     quarter = models.ForeignKey('Quarter')
     student = models.ManyToManyField(
         'Student',
@@ -741,7 +745,6 @@ class State(models.Model):
 class Student(models.Model):
     gender = models.ForeignKey(Gender)
     generation = models.ForeignKey(Generation)
-    leader = models.BooleanField()
     name = models.CharField(max_length=64)
     registration_number = models.IntegerField(primary_key=True)
     scholarship = models.ManyToManyField(
