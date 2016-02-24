@@ -7,7 +7,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'isw.settings')
 import cast
 import db_interface
 import model_interface
-import xls_interface
 
 
 def create_group(
@@ -36,7 +35,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Registra un grupo a partir de un archivo.')
-    parser.add_argument('file_type', help='Tipo de archivo', type=xls_interface.cast_string_to_file_type)
+    parser.add_argument('file_type', help='Tipo de archivo', type=cast.cast_string_to_file_type)
     parser.add_argument('career', help='Código de la carrera', type=model_interface.get_career)
     parser.add_argument('degree', help='Grado del grupo', type=model_interface.get_classroom_degree)
     parser.add_argument('identifier', help='Identificador del grupo', type=model_interface.get_classroom_identifier)

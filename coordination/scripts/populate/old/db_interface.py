@@ -1,13 +1,10 @@
+import cast
 from coordination.models import (
     Classroom,
     Student,
     StudentInClassroom,
 )
-from xls_interface import (
-    FileType,
-    read_tutor_name,
-    read_students_data,
-)
+import xls_interface
 
 import coordination.scripts.populate.old.model_interface as model_interface
 
@@ -17,9 +14,10 @@ def create_classroom(
         degree,
         file_type,
         identifier,
+        leader,
         quarter
 ):
-    tutor_name = read_tutor_name(career, degree, file_type, identifier, quarter)
+    tutor_name = xls_interface.read_tutor_name(career, degree, file_type, identifier, quarter)
     professor = model_interface.get_professor(tutor_name)
 
     try:
@@ -27,6 +25,7 @@ def create_classroom(
             career=career,
             degree=degree,
             identifier=identifier,
+            leader=leader,
             quarter=quarter,
             tutor=professor
         )
@@ -44,14 +43,14 @@ def create_group_from_academic_load(
         quarter
 ):
 
-    file_type = FileType.academic_load
+    file_type = cast.FileType.academic_load
 
     if degree == model_interface.get_classroom_degree(1):
         students = create_students(career, degree, file_type, generation, identifier, quarter)
     else:
         students = find_students(file_type, quarter)
 
-    classroom = create_classroom(career, degree, file_type, identifier, quarter)
+    classroom = create_classroom(career, degree, file_type, identifier, students[0], quarter)
     register_students_in_classroom(classroom, students)
 
 
@@ -63,7 +62,7 @@ def create_students(
         identifier,
         quarter
 ):
-    students_data = read_students_data(career, degree, file_type, identifier, quarter)
+    students_data = xls_interface.read_students_data(career, degree, file_type, identifier, quarter)
 
     students = []
     try:
@@ -72,7 +71,6 @@ def create_students(
             student = Student.objects.create(
                 gender=entry['gender'],
                 generation=generation,
-                leader=False,
                 name=entry['name'],
                 registration_number=entry['registration_number'],
                 status=entry['status']
@@ -92,7 +90,7 @@ def find_students(
         identifier,
         quarter
 ):
-    students_data = read_students_data(career, degree, file_type, identifier, quarter)
+    students_data = xls_interface.read_students_data(career, degree, file_type, identifier, quarter)
 
     students = []
     try:
@@ -107,11 +105,11 @@ def find_students(
 
 
 def register_students_in_classroom(
-        students,
-        classroom
+        classroom,
+        students
 ):
     try:
         for student in students:
-            StudentInClassroom.objects.create(classroom, student)
+            StudentInClassroom.objects.create(classroom=classroom, student=student)
     except:
         raise

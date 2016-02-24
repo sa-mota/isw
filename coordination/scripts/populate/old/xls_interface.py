@@ -1,5 +1,7 @@
 # coding=utf-8
-from cast import *
+from collections import namedtuple
+
+import cast
 from coordination.models import (
     Year
 )
@@ -28,13 +30,13 @@ def get_file_path(
 ):
     sgc_directory = os.getcwd() + '/coordination/sgc/'
 
-    if file_type == FileType.academic_load:
+    if file_type == cast.FileType.academic_load:
         data_dir = 'soporte/sac15po01-procedimientos-de-servicios-escolares/sac01rg24-carga-academica/'
 
         filename = '{:s}/{:s}{:s}-{:s}{:s}.xls'
         filename = filename.format(career.code, quarter.year, quarter.period.code, degree, identifier)
         filename = filename.lower()
-    elif file_type == FileType.professor_planning:
+    elif file_type == cast.FileType.professor_planning:
         data_dir = 'clave/sac01po01-gestion-de-la-asignatura/sac01rg01-planeacion-cautrimestral-de-personal-docente/'
 
         filename = '{:s}/{:s}{:s}.xls'
@@ -54,10 +56,10 @@ def get_headers_cells(
 ):
     year = quarter.year.id
 
-    if data_type == DataType.academic_load:
-        if file_type == FileType.academic_load:
+    if data_type == cast.DataType.academic_load:
+        if file_type == cast.FileType.academic_load:
             if year == 2013:
-                cells = TaughtSubjectInAcademicLoadData(
+                cells = cast.TaughtSubjectInAcademicLoadData(
                     degree=Point2D(4, 12),
                     identifier=Point2D(4, 12),
                     opportunity=Point2D(3, 12),
@@ -67,8 +69,8 @@ def get_headers_cells(
                 raise Exception('¡Año no soportado <{:d}>!'.format(year))
         else:
             raise Exception('¡Documento no soportado <{:s}>!¡'.format(year))
-    elif data_type == DataType.general:
-        if file_type == FileType.academic_load:
+    elif data_type == cast.DataType.general:
+        if file_type == cast.FileType.academic_load:
             labels = ['tutor']
 
             Indices = namedtuple('Indices', labels)
@@ -85,10 +87,10 @@ def get_headers_cells(
             ]
         else:
             raise Exception('¡Documento no soportado <{:s}>!'.format(year))
-    elif data_type == DataType.students_list:
-        if file_type == FileType.academic_load:
+    elif data_type == cast.DataType.students_list:
+        if file_type == cast.FileType.academic_load:
             if year == 2013:
-                cells = StudentData(
+                cells = cast.StudentData(
                     gender=Point2D(3, 7),
                     name=Point2D(2, 7),
                     number=Point2D(0, 7),
@@ -99,8 +101,8 @@ def get_headers_cells(
                 raise Exception('¡Año no soportado <{:d}>!'.format(year))
         else:
             raise Exception('¡Documento no soportado <{:s}>!'.format(year))
-    elif data_type == DataType.taught_subjects:
-        if file_type == FileType.professor_planning:
+    elif data_type == cast.DataType.taught_subjects:
+        if file_type == cast.FileType.professor_planning:
             labels = [
                 'degree',
                 'identifier',
@@ -142,32 +144,32 @@ def get_sheet_name(
         quarter,
         index=None
 ):
-    if data_type == DataType.academic_load:
-        if file_type == FileType.academic_load:
+    if data_type == cast.DataType.academic_load:
+        if file_type == cast.FileType.academic_load:
             if quarter.year == Year.objects.get(id=2013):
                 sheet_name = 'T' + str(int(index))
             else:
                 raise Exception('¡Año no soportado <{:d}>!'.format(quarter.year))
         else:
             raise Exception('¡Documento no soportado <{:s}>!'.format(file_type))
-    elif data_type == DataType.general:
-        if file_type == FileType.academic_load:
+    elif data_type == cast.DataType.general:
+        if file_type == cast.FileType.academic_load:
             if quarter.year == Year.objects.get(id=2013):
                 sheet_name = 'Datos'
             else:
                 raise Exception('¡Año no soportado <{:d}>!'.format(quarter.year))
         else:
             raise Exception('¡Documento no soportado <{:s}>!'.format(file_type))
-    elif data_type == DataType.students_list:
-        if file_type == FileType.academic_load:
+    elif data_type == cast.DataType.students_list:
+        if file_type == cast.FileType.academic_load:
             if quarter.year == Year.objects.get(id=2013):
                 sheet_name = 'LISTAS'
             else:
                 raise Exception('¡Año no soportado <{:d}>!'.format(quarter.year))
         else:
             raise Exception('¡Documento no soportado <{:s}>!'.format(file_type))
-    elif data_type == DataType.taught_subject:
-        if file_type == FileType.professor_planning:
+    elif data_type == cast.DataType.taught_subjects:
+        if file_type == cast.FileType.professor_planning:
             if quarter.year == Year.objects.get(id=2013):
                 sheet_name = 'Lista'
             else:
@@ -217,7 +219,7 @@ def process_gender_code(
         file_type,
         quarter
 ):
-    if file_type == FileType.academic_load:
+    if file_type == cast.FileType.academic_load:
         if quarter.year == Year.objects.get(id=2013):
             code_upper = code.upper()
             if code_upper == 'F':
@@ -234,6 +236,14 @@ def process_gender_code(
     return gender_code
 
 
+def get_columns(cells):
+    columns = []
+    for name in cells._fields:
+        columns.append(getattr(cells, name).x)
+
+    return columns
+
+
 def read_students_data(
         career,
         degree,
@@ -241,38 +251,32 @@ def read_students_data(
         identifier,
         quarter
 ):
-    data_type = 'students'
+    data_type = cast.DataType.students_list
 
     workbook = open_workbook(career, file_type, quarter, degree, identifier)
     worksheet = get_worksheet(data_type, file_type, quarter, workbook)
 
-    headers_cells = get_headers_cells(data_type, file_type, quarter)
-
-    rows = read_up_to_empty(
-        worksheet,
-        headers_cells['cells'].registration_number.y + 1,
-        headers_cells['columns'],
-        headers_cells['indices'].registration_number
-    )
+    cells = get_headers_cells(data_type, file_type, quarter)
+    rows = read_up_to_empty(worksheet, cells.registration_number.y + 1, get_columns(cells), cells.registration_number.x)
 
     students_data = []
     for row in rows:
         tmp = {}
 
-        gender_code = process_gender_code(row[headers_cells['indices'].gender], file_type, quarter)
+        gender_code = process_gender_code(row[0], file_type, quarter)
         tmp['gender'] = model_interface.get_gender(gender_code)
 
-        name = row[headers_cells['indices'].name]
-        tmp['name'] = cast_string_to_name(name)
+        name = row[1]
+        tmp['name'] = cast.cast_string_to_name(name)
 
-        registration_number = row[headers_cells['indices'].registration_number]
-        tmp['registration_number'] = cast_string_to_registration_number(registration_number)
+        number = row[2]
+        tmp['number'] = cast.cast_string_to_registration_number(number)
 
-        student_status_code = cast_string_to_student_status_name(
-            row[headers_cells['indices'].status],
-            file_type,
-            quarter
-        )
+        registration_number = row[3]
+        tmp['registration_number'] = cast.cast_string_to_registration_number(registration_number)
+
+        print row
+        student_status_code = cast.cast_string_to_student_status_name(row[4])
         tmp['status'] = model_interface.get_student_status(student_status_code)
 
         students_data.append(tmp)
@@ -313,21 +317,15 @@ def read_tutor_name(
         identifier,
         quarter
 ):
-    data_type = 'general'
-    file_path = get_file_path(career, degree, file_type, identifier, quarter)
+    data_type = cast.DataType.general
 
-    try:
-        workbook = xlrd.open_workbook(file_path)
-    except Exception as e:
-        raise Exception(e.message)
+    workbook = open_workbook(career, file_type, quarter, degree, identifier)
+    worksheet = get_worksheet(data_type, file_type, quarter, workbook)
 
-    sheet_name = get_sheet_name(data_type, file_type, quarter)
-    worksheet = workbook.sheet_by_name(sheet_name)
+    cells = get_headers_cells(data_type, file_type, quarter)
 
-    headers_cells = get_headers_cells(data_type, file_type, quarter)
-
-    if worksheet.cell_type(headers_cells['cells'].tutor.y, headers_cells['cells'].tutor.x) in (xlrd.XL_CELL_EMPTY, xlrd.XL_CELL_BLANK):
+    if worksheet.cell_type(cells.tutor.y, cells.tutor.x) in (xlrd.XL_CELL_EMPTY, xlrd.XL_CELL_BLANK):
         raise Exception('¡Tutor inválido!')
 
-    tutor_name = worksheet.cell(headers_cells['cells'].tutor.y, headers_cells['cells'].tutor.x).value
-    return cast_string_to_name(tutor_name)
+    tutor_name = worksheet.cell(cells.tutor.y, cells.tutor.x).value
+    return cast.cast_string_to_name(tutor_name)

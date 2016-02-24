@@ -102,6 +102,15 @@ def get_period(code):
     return period
 
 
+def get_professor(name):
+    try:
+        professor = Professor.objects.get(name=name)
+    except ObjectDoesNotExist:
+        raise Exception('Profesor no encontrado <{:s}>.'.format(name))
+
+    return professor
+
+
 def get_professor_type(code):
     try:
         professor_type = ProfessorType.objects.get(code=code)
@@ -127,6 +136,15 @@ def get_state(name):
         raise Exception('Estado no encontrado <{:s}>.'.format(name))
 
     return state
+
+
+def get_student_status(name):
+    try:
+        student_status = StudentStatus.objects.get(name=name)
+    except ObjectDoesNotExist:
+        raise Exception('Estado de estudiante no encontrado <{:s}>.'.format(name))
+
+    return student_status
 
 
 def get_year(id):
