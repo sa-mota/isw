@@ -18,7 +18,7 @@ from models import (
 class CreateGenerationView(CreateView):
     fields = '__all__'
     model = Generation
-    template_name = 'edit/generation.html'
+    template_name = 'sicpe/edit/generation.html'
 
     def get_success_url(self):
         return reverse('generations-list')
@@ -35,7 +35,7 @@ class CreateGenerationView(CreateView):
 ########################################################################################################################
 class DeleteGenerationView(DeleteView):
     model = Generation
-    template_name = 'delete/generation.html'
+    template_name = 'sicpe/delete/generation.html'
 
     def get_success_url(self):
         return reverse('generations-list')
@@ -46,7 +46,7 @@ class DeleteGenerationView(DeleteView):
 ########################################################################################################################
 class GenerationView(DetailView):
     model = Generation
-    template_name = 'detail/generation.html'
+    template_name = 'sicpe/detail/generation.html'
 
     def get_absolute_url(self):
         return reverse('generations-view', kwargs={'pk': self.id})
@@ -57,7 +57,7 @@ class GenerationView(DetailView):
 ########################################################################################################################
 class ListGenerationView(ListView):
     model = Generation
-    template_name = 'list/generation.html'
+    template_name = 'sicpe/list/generation.html'
 
 
 ########################################################################################################################
@@ -66,7 +66,7 @@ class ListGenerationView(ListView):
 class UpdateGenerationView(UpdateView):
     fields = '__all__'
     model = Generation
-    template_name = 'edit/generation.html'
+    template_name = 'sicpe/edit/generation.html'
 
     def get_success_url(self):
         return reverse('generations-list')

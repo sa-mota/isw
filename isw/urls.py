@@ -22,7 +22,7 @@ import coordination.views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^isw/calls/logo/$', TemplateView.as_view(template_name='calls/logo.html'), name='coordination-calls-logo'),
+    url(r'^isw/calls/logo/$', TemplateView.as_view(template_name='isw/calls/logo.html'), name='isw-calls-logo'),
 
     url(r'^sicpe/delete/generation/(?P<pk>\d+)/$', coordination.views.DeleteGenerationView.as_view(), name='generations-delete'),
 
