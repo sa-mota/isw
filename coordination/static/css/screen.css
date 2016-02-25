@@ -383,6 +383,11 @@ table.report td.detail {
     width:  80%;
 }
 
+table.report td.detail-list {
+    line-height:    1.0;
+    width:          80%;
+}
+
 table.report td.title,
              td.subtitle {
     background-color:   #fff;
@@ -410,7 +415,7 @@ table.report th.detail {
 }
 
 table.report tr.data:nth-child(even) {
-    background-color: eee;
+    background-color: #eee;
 }
 
 table.report tr.data:nth-child(odd) {
