@@ -275,7 +275,6 @@ def read_students_data(
         registration_number = row[3]
         tmp['registration_number'] = cast.cast_string_to_registration_number(registration_number)
 
-        print row
         student_status_code = cast.cast_string_to_student_status_name(row[4])
         tmp['status'] = model_interface.get_student_status(student_status_code)
 
