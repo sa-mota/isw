@@ -1,0 +1,67 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Detalle de Estudiante{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+{% load staticfiles %}
+<table class="report">
+    <tr>
+        <td colspan="2" class="no_show title">
+            Detalle de Estudiante
+            <img class="logo" src="{% static 'images/header/logo-small.png' %}" alt="Logo">
+        </td>
+    </tr>
+
+    <tr>
+        <th class="detail">Nombre:</th>
+        <td class="detail">{{ student.name }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Matrícula:</th>
+        <td class="detail">{{ student.registration_number }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Género:</th>
+        <td class="detail">{{ student.gender }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Estado:</th>
+        <td class="detail">{{ student.status }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Generación:</th>
+        <td class="detail">{{ student.generation }}</td>
+    </tr>
+
+    {% if student.scholarship.all %}
+        <tr>
+            <th class="detail">Becas:</th>
+            <td class="detail"></td>
+        </tr>
+        <tr class="header">
+            <td>Nombre</td>
+            <td>Cuatrimestre</td>
+        </tr>
+        {% for scholarship in student.scholarship.all %}
+            <tr class="data">
+                <td class="detail-list">
+                    <a href="{{ scholarship.get_absolute_url }}">{{ scholarship.name }}</a>
+                    <a href="{% url "scholarships-edit" pk=scholarship.id %}"><i class="fa fa-edit"></i></a>
+                </td>
+                <td class="detail-list">{{ scholarship.quarter }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <th class="detail">Becas:</th>
+            <td class="detail">No hay becas registradas.</td>
+        </tr>
+    {% endif %}
+</table>
+{% endblock %}

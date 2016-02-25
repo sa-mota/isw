@@ -1,0 +1,80 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Detalle de Grupo{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+{% load staticfiles %}
+<table class="report">
+    <tr>
+        <td colspan="2" class="no_show title">
+            Detalle de Grupo
+            <img class="logo" src="{% static 'images/header/logo-small.png' %}" alt="Logo">
+        </td>
+    </tr>
+
+    <tr>
+        <th class="detail">Carrera:</th>
+        <td class="detail">
+            <a href="{{ classroom.career.get_absolute_url }}">{{ classroom.career }}</a>
+            <a href="{% url "careers-edit" pk=classroom.career.id %}"><i class="fa fa-edit"></i></a>
+        </td>
+    </tr>
+
+    <tr>
+        <th class="detail">Grupo:</th>
+        <td class="detail">{{ classroom.degree }}{{ classroom.identifier }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Cuatrimestre:</th>
+        <td class="detail">{{ classroom.quarter }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Tutor:</th>
+        <td class="detail">
+            <a href="{{ classroom.tutor.get_absolute_url }}">{{ classroom.tutor }}</a>
+            <a href="{% url "professors-edit" pk=classroom.tutor.employee_number %}"><i class="fa fa-edit"></i></a>
+        </td>
+    </tr>
+
+    <tr>
+        <th class="detail">Jefe de grupo:</th>
+        <td class="detail">
+            <a href="{{ classroom.leader.get_absolute_url }}">{{ classroom.leader }}</a>
+            <a href="{% url "students-edit" pk=classroom.leader.registration_number %}"><i class="fa fa-edit"></i></a>
+        </td>
+    </tr>
+</table>
+
+<table class="report">
+    {% if classroom.student.all %}
+        <tr>
+            <th class="detail">Estudiantes:</th>
+            <td class="detail"></td>
+        </tr>
+        <tr class="header">
+            <td>Nombre</td>
+            <td>Género</td>
+            <td>Matrícula</td>
+        </tr>
+        {% for student in classroom.student.all %}
+            <tr class="data">
+                <td class="detail-list">
+                    <a href="{{ student.get_absolute_url }}">{{ student.name }}</a>
+                    <a href="{% url "students-edit" pk=student.registration_number %}"><i class="fa fa-edit"></i></a>
+                </td>
+                <td class="detail-list">{{ student.gender }}</td>
+                <td class="detail-list">{{ student.registration_number }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <th class="detail">Estudiantes:</th>
+            <td class="detail">No hay estudiantes registrados.</td>
+        </tr>
+    {% endif %}
+</table>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}
+{% if student.id %}
+Editar Estudiante
+{% else %}
+Agregar Estudiante
+{% endif %}
+{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+<form action="{{ action }}" method="POST" class="no_print">
+    {% csrf_token %}
+
+    <table class="left">
+        <tr>
+            <td></td>
+            <td>{{ form.name.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.name.id_for_label }}">Nombre: </label></td>
+            <td>{{ form.name }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.registration_number.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.registration_number.id_for_label }}">Matrícula:</label></td>
+            <td>{{ form.registration_number }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.gender.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.gender.id_for_label }}">Género: </label></td>
+            <td>{{ form.gender }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.status.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.status.id_for_label }}">Estado: </label></td>
+            <td>{{ form.status }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.generation.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.generation.id_for_label }}">Generación: </label></td>
+            <td>{{ form.generation }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.scholarship.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.scholarship.id_for_label }}">Becas: </label></td>
+            <td>{{ form.scholarship }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit" class="form-icon"><i class="fa fa-plus-square"></i></button>
+                {% if student.id %}
+                    <a class="form-icon" href="{% url "students-delete" pk=student.registration_number %}"><i class="fa fa-trash"></i></a>
+                {% endif %}
+                <a class="form-icon" href="{% url "students-list" %}"><i class="fa fa-arrow-circle-left"></i></a>
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Eliminar Grupo{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+<p>¿Esta seguro de que quiere eliminar el grupo {{ classroom }}?</p>
+
+<form action="{% url "classrooms-delete" pk=classroom.id %}" method="POST">
+    {% csrf_token %}
+
+    <button type="submit" class="form-icon"><i class="fa fa-check-square"></i></button>
+    <a class="form-icon" href="{% url "classrooms-list" %}"><i class="fa fa-times-circle"></i></a>
+</form>
+{% endblock %}

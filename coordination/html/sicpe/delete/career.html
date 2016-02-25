@@ -1,0 +1,16 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Eliminar Carrera{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+<p>¿Esta seguro de que quiere eliminar la carrera {{ career }}?</p>
+
+<form action="{% url "careers-delete" pk=career.id %}" method="POST">
+    {% csrf_token %}
+
+    <button type="submit" class="form-icon"><i class="fa fa-check-square"></i></button>
+    <a class="form-icon" href="{% url "careers-list" %}"><i class="fa fa-times-circle"></i></a>
+</form>
+{% endblock %}

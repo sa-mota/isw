@@ -1,0 +1,16 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Eliminar Estudiante{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+<p>¿Esta seguro de que quiere eliminar el estudiante {{ student }}?</p>
+
+<form action="{% url "students-delete" pk=student.registration_number %}" method="POST">
+    {% csrf_token %}
+
+    <button type="submit" class="form-icon"><i class="fa fa-check-square"></i></button>
+    <a class="form-icon" href="{% url "students-list" %}"><i class="fa fa-times-circle"></i></a>
+</form>
+{% endblock %}

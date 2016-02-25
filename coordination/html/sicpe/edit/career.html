@@ -1,0 +1,48 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}
+{% if career.id %}
+Editar Carrera
+{% else %}
+Agregar Carrera
+{% endif %}
+{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+<form action="{{ action }}" method="POST" class="no_print">
+    {% csrf_token %}
+
+    <table class="left">
+        <tr>
+            <td></td>
+            <td>{{ form.name.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.name.id_for_label }}">Nombre: </label></td>
+            <td>{{ form.name }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.code.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.code.id_for_label }}">Código:</label></td>
+            <td>{{ form.code }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit" class="form-icon"><i class="fa fa-plus-square"></i></button>
+                {% if career.id %}
+                    <a class="form-icon" href="{% url "careers-delete" pk=career.id %}"><i class="fa fa-trash"></i></a>
+                {% endif %}
+                <a class="form-icon" href="{% url "careers-list" %}"><i class="fa fa-arrow-circle-left"></i></a>
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

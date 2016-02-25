@@ -1,0 +1,44 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Lista de Profesores{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+{% if object_list %}
+    {% load staticfiles %}
+    <table class="report">
+        <tr>
+            <td colspan="2" class="left title">
+                Profesores
+            </td>
+            <td colspan="1" rowspan="1">
+                <img class="logo" src="{% static 'images/header/logo-small.png' %}" alt="Logo">
+            </td>
+        </tr>
+
+        <tr class="header">
+            <th class="left long_column">Nombre</th>
+            <th class="center">Género</th>
+            <th class="center">Número de empleado</th>
+            <th class="center">Activo</th>
+        </tr>
+
+        {% for professor in object_list %}
+            <tr class="data">
+                <td class="left">
+                    <a href="{{ professor.get_absolute_url }}">{{ professor.name }}</a>
+                    <a href="{% url "professors-edit" pk=professor.employee_number %}"><i class="fa fa-edit"></i></a>
+                </td>
+                <td class="center">{{ professor.gender }}</td>
+                <td class="center">{{ professor.employeen_number }}</td>
+                <td class="center">{{ professor.active }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No hay profesores registrados.</p>
+{% endif %}
+
+<a class="form-icon" href="{% url "students-new" %}"><i class="fa fa-plus-square"></i></a>
+{% endblock %}

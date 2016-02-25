@@ -1,0 +1,67 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Detalle de Profesor{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+{% load staticfiles %}
+<table class="report">
+    <tr>
+        <td colspan="2" class="no_show title">
+            Detalle de Profesor
+            <img class="logo" src="{% static 'images/header/logo-small.png' %}" alt="Logo">
+        </td>
+    </tr>
+
+    <tr>
+        <th class="detail">Nombre:</th>
+        <td class="detail">{{ professor.name }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Activo:</th>
+        <td class="detail">{{ professor.active }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Número de empleado:</th>
+        <td class="detail">{{ professor.employee_number }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Iniciales:</th>
+        <td class="detail">{{ professor.initials }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Género:</th>
+        <td class="detail">{{ professor.gender }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Correo electrónico:</th>
+        <td class="detail">{{ professor.email }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Teléfono:</th>
+        <td class="detail">{{ professor.phone }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Tipo:</th>
+        <td class="detail">{{ professor.type }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Procedencia:</th>
+        <td class="detail">{{ professor.city }}, {{ professor.state }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Currículo:</th>
+        <td class="detail">{{ professor.cv }}</td>
+    </tr>
+</table>
+{% endblock %}

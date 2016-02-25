@@ -1,0 +1,27 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Detalle de Carrera{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+{% load staticfiles %}
+<table class="report">
+    <tr>
+        <td colspan="2" class="no_show title">
+            Detalle de Carrera
+            <img class="logo" src="{% static 'images/header/logo-small.png' %}" alt="Logo">
+        </td>
+    </tr>
+
+    <tr>
+        <th class="detail">Nombre:</th>
+        <td class="detail">{{ career.name }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Código:</th>
+        <td class="detail">{{ career.code }}</td>
+    </tr>
+</table>
+{% endblock %}

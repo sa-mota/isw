@@ -1,0 +1,111 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}
+{% if student.id %}
+Editar Profesor
+{% else %}
+Agregar Profesor
+{% endif %}
+{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+<form action="{{ action }}" method="POST" class="no_print">
+    {% csrf_token %}
+
+    <table class="left">
+        <tr>
+            <td></td>
+            <td>{{ form.name.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.name.id_for_label }}">Nombre: </label></td>
+            <td>{{ form.name }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.employee_number.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.employee_number.id_for_label }}">Número de empleado:</label></td>
+            <td>{{ form.employee_number }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.gender.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.gender.id_for_label }}">Género: </label></td>
+            <td>{{ form.gender }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.type.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.type.id_for_label }}">Tipo: </label></td>
+            <td>{{ form.type }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.city.errors }} {{ form.state.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.city.id_for_label }}">Procedencia: </label></td>
+            <td>{{ form.city }} {{ form.state }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.active.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.active.id_for_label }}">Activo: </label></td>
+            <td>{{ form.active }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.cv.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.cv.id_for_label }}">CV: </label></td>
+            <td>{{ form.cv }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.email.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.email.id_for_label }}">Correo electrónico: </label></td>
+            <td>{{ form.email }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.phone.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.phone.id_for_label }}">Teléfono: </label></td>
+            <td>{{ form.phone }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit" class="form-icon"><i class="fa fa-plus-square"></i></button>
+                {% if professor.id %}
+                    <a class="form-icon" href="{% url "professors-delete" pk=professor.employee_number %}"><i class="fa fa-trash"></i></a>
+                {% endif %}
+                <a class="form-icon" href="{% url "professors-list" %}"><i class="fa fa-arrow-circle-left"></i></a>
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

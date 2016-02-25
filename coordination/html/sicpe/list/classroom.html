@@ -1,0 +1,42 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Lista de Grupos{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+{% if object_list %}
+    {% load staticfiles %}
+    <table class="report">
+        <tr>
+            <td colspan="2" class="left title">
+                Grupos
+            </td>
+            <td colspan="1" rowspan="1">
+                <img class="logo" src="{% static 'images/header/logo-small.png' %}" alt="Logo">
+            </td>
+        </tr>
+
+        <tr class="header">
+            <th class="left long_column">Carrera</th>
+            <th class="center">Grupo</th>
+            <th class="center">Cuatrimestre</th>
+        </tr>
+
+        {% for classroom in object_list %}
+            <tr class="data">
+                <td class="left">
+                    <a href="{{ classroom.get_absolute_url }}">{{ classroom.career }}</a>
+                    <a href="{% url "classrooms-edit" pk=classroom.id %}"><i class="fa fa-edit"></i></a>
+                </td>
+                <td class="center">{{ classroom.degree }}{{ classroom.identifier }}</td>
+                <td class="center">{{ classroom.quarter.year }} {{ classroom.quarter.period.code }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No hay generaciones registradas.</p>
+{% endif %}
+
+<a class="form-icon" href="{% url "generations-new" %}"><i class="fa fa-plus-square"></i></a>
+{% endblock %}
