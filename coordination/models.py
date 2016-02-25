@@ -109,10 +109,7 @@ class Classroom(models.Model):
         related_name='leader'
     )
     quarter = models.ForeignKey('Quarter')
-    student = models.ManyToManyField(
-        'Student',
-        through='StudentInClassroom'
-    )
+    student = models.ManyToManyField('Student')
     tutor = models.ForeignKey('Professor')
 
     class Meta:
@@ -830,29 +827,6 @@ class StudentGraduated(models.Model):
     def __unicode__(self):
         return u'{:s} {:s}'.format(
             self.quarter,
-            self.student
-        )
-
-
-class StudentInClassroom(models.Model):
-    classroom = models.ForeignKey(Classroom)
-    student = models.ForeignKey(Student)
-
-    class Meta:
-        app_label = app_label
-        ordering = [
-            'classroom',
-            'student',
-        ]
-        unique_together = (
-            ('classroom', 'student'),
-        )
-        verbose_name = 'Student in classroom'
-        verbose_name_plural = 'Students in classroom'
-
-    def __unicode__(self):
-        return u'{:s} {:s}'.format(
-            self.classroom,
             self.student
         )
 
