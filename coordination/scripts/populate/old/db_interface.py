@@ -2,7 +2,7 @@ import cast
 from coordination.models import (
     Classroom,
     Student,
-    StudentInClassroom,
+#     StudentInClassroom,
 )
 import xls_interface
 
@@ -67,7 +67,6 @@ def create_students(
     students = []
     try:
         for entry in students_data:
-
             student = Student.objects.create(
                 gender=entry['gender'],
                 generation=generation,
@@ -76,7 +75,7 @@ def create_students(
                 status=entry['status']
             )
 
-        students.append(student)
+            students.append(student)
     except:
         raise
 
@@ -110,6 +109,7 @@ def register_students_in_classroom(
 ):
     try:
         for student in students:
-            StudentInClassroom.objects.create(classroom=classroom, student=student)
+            # classroom.student.create(registration_number=student.registration_number)
+            classroom.student.add(student)
     except:
         raise
