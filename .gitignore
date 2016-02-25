@@ -3,6 +3,7 @@
 
 # Data directories
 sql/
+coordination/migrations/
 coordination/sgc
 
 # Project directories
