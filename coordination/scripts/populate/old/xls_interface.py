@@ -270,10 +270,10 @@ def read_students_data(
         tmp['name'] = cast.cast_string_to_name(name)
 
         number = row[2]
-        tmp['number'] = cast.cast_string_to_registration_number(number)
+        tmp['number'] = cast.cast_string_to_integer(number)
 
         registration_number = row[3]
-        tmp['registration_number'] = cast.cast_string_to_registration_number(registration_number)
+        tmp['registration_number'] = cast.cast_string_to_integer(registration_number)
 
         student_status_code = cast.cast_string_to_student_status_name(row[4])
         tmp['status'] = model_interface.get_student_status(student_status_code)
@@ -281,6 +281,40 @@ def read_students_data(
         students_data.append(tmp)
 
     return students_data
+
+
+def read_taught_subjects(
+        career,
+        file_type,
+        quarter
+):
+    data_type = cast.DataType.taught_subjects
+
+    workbook = open_workbook(career, file_type, quarter)
+    worksheet = get_worksheet(data_type, file_type, quarter, workbook)
+
+    cells = get_headers_cells(data_type, file_type, quarter)
+    rows = read_up_to_empty(worksheet, cells.subject.y + 1, get_columns(cells), cells.subject.x)
+
+    taught_subjects_data = []
+    for row in rows:
+        tmp = {}
+
+        classroom_degree = cast.cast_string_to_classroom_degree(row[0])
+        tmp['classroom_degree'] = model_interface.get_classroom_degree(classroom_degree)
+
+        classroom_identifier = cast.cast_string_to_classroom_identifier(row[1])
+        tmp['classroom_identifier'] = model_interface.get_classroom_identifier(classroom_identifier)
+
+        professor_name = cast.cast_string_to_name(row[2])
+        tmp['professor'] = model_interface.get_professor(name=professor_name)
+
+        subject_name = cast.cast_string_to_name(row[3])
+        tmp['subject'] = model_interface.get_subject(name=subject_name)
+
+        taught_subjects_data.append(tmp)
+
+    return taught_subjects_data
 
 
 def read_up_to_empty(
