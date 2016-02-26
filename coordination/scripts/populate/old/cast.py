@@ -40,6 +40,48 @@ StudentData = namedtuple(
 ########################################################################################################################
 # Methods
 ########################################################################################################################
+def cast_string_to_classroom_degree(string):
+    string = strip_accents(string)
+
+    classroom_degree = ''.join(character for character in string if character.isdigit())
+    try:
+        classroom_degree = int(classroom_degree)
+    except:
+        raise Exception('Cadena de grado de grupo no soportada <{:s}>'.format(string))
+
+    return classroom_degree
+
+
+def cast_string_to_classroom_identifier(string):
+    string = strip_accents(string)
+
+    if 'ISW' in string:
+        if 'A' in string:
+            classroom_identifier = 'A'
+        elif 'B' in string:
+            classroom_identifier = 'B'
+        else:
+            raise Exception('Cadena de identificador de grupo no soportada <{:s}>'.format(string))
+    elif 'MIX' in string:
+        if 'MIXTO' in string:
+            string = string.replace('MIXTO', 'MIX')
+
+        classroom_identifier = ''.join(character for character in string if not character.isdigit())
+    elif 'UNI' in string:
+        if 'UNICO' in string:
+            string = string.replace('UNICO', 'UNI')
+
+        classroom_identifier = ''.join(character for character in string if not character.isdigit())
+    elif 'A' in string:
+        classroom_identifier = 'A'
+    elif 'B' in string:
+        classroom_identifier = 'B'
+    else:
+        raise Exception('Cadena de identificador de grupo no soportada <{:s}>'.format(string))
+
+    return classroom_identifier
+
+
 def cast_string_to_file_type(string):
     if string == 'academic_load':
         file_type = FileType.academic_load
@@ -51,7 +93,7 @@ def cast_string_to_file_type(string):
     return file_type
 
 
-def cast_string_to_registration_number(string):
+def cast_string_to_integer(string):
     try:
         registration_number = int(string)
     except:
