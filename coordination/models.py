@@ -106,11 +106,20 @@ class Classroom(models.Model):
     identifier = models.ForeignKey('ClassroomIdentifier')
     leader = models.OneToOneField(
         'Student',
+        blank=True,
+        null=True,
         related_name='leader'
     )
     quarter = models.ForeignKey('Quarter')
-    student = models.ManyToManyField('Student')
-    tutor = models.ForeignKey('Professor')
+    student = models.ManyToManyField(
+        'Student',
+        blank=True,
+    )
+    tutor = models.ForeignKey(
+        'Professor',
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         app_label = app_label
