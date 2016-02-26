@@ -135,8 +135,22 @@ admin.site.register(StudentStatus, StudentStatusAdmin)
 
 
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name', 'curricular_axis', 'degree')
+    list_display = (
+        'code',
+        'name',
+        'curricular_axis',
+        'degree',
+    )
 admin.site.register(Subject, SubjectAdmin)
+
+
+class TaughtSubjectAdmin(admin.ModelAdmin):
+    list_display = (
+        'subject',
+        'classroom',
+        'professor',
+    )
+admin.site.register(TaughtSubject, TaughtSubjectAdmin)
 
 
 class YearAdmin(admin.ModelAdmin):
