@@ -24,6 +24,20 @@ def get_city(name):
     return city
 
 
+def get_classroom(
+        career,
+        degree,
+        identifier,
+        quarter
+):
+    try:
+        classroom = Classroom.objects.get(career=career, degree=degree, identifier=identifier, quarter=quarter)
+    except ObjectDoesNotExist:
+        raise Exception('Grupo no encontrado <{:s}, {:s}, {:s}, {:s}>.'.format(career, degree, identifier, quarter))
+
+    return classroom
+
+
 def get_classroom_degree(id):
     try:
         classroom_degree = ClassroomDegree.objects.get(id=id)
@@ -37,7 +51,7 @@ def get_classroom_identifier(name):
     try:
         classroom_identifier = ClassroomIdentifier.objects.get(name=name)
     except ObjectDoesNotExist:
-        raise Exception('Identificador de grupo no encontrado <{:d}>.'.format(id))
+        raise Exception('Identificador de grupo no encontrado <{:s}>.'.format(name))
 
     return classroom_identifier
 
@@ -145,6 +159,15 @@ def get_student_status(name):
         raise Exception('Estado de estudiante no encontrado <{:s}>.'.format(name))
 
     return student_status
+
+
+def get_subject(name):
+    try:
+        subject = Subject.objects.get(name=name)
+    except ObjectDoesNotExist:
+        raise Exception('Asignatura no encontrada <{:s}>.'.format(name))
+
+    return subject
 
 
 def get_year(id):
