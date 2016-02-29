@@ -1,0 +1,18 @@
+{% extends "coordination-skeleton.html" %}
+
+{% block window_title %}UPPE - ISW{% endblock %}
+
+{% block title %}Universidad Politécnica de Pénjamo{% endblock %}
+{% block subtitle %}Ingeniería en Software{% endblock %}
+
+{% block content %}
+{% load staticfiles %}
+<h1 class="title no_show">
+    <img class="logo" src="{% static "images/header/logo-small.png" %}" alt="logo" />
+    Ingeniería en Software
+</h1>
+
+<p>
+    <img class="logo-large" src="{% static "images/header/logo-isw-small.png" %}" alt="logo" />
+</p>
+{% endblock %}
