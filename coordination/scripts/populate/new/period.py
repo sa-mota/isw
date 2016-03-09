@@ -2,7 +2,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'isw.settings')
 
 from coordination.models import Period
-import coordination.scripts.populate.old.model_interface as model_interface
+import coordination.scripts.model_interface as model_interface
 
 
 def main():

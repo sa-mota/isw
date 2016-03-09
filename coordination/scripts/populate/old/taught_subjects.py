@@ -5,8 +5,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'isw.settings')
 
 import cast
-import db_interface
-import model_interface
+from coordination.scripts import model_interface, db_interface
 
 
 def create_taught_subjects(

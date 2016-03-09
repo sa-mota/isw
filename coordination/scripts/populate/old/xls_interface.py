@@ -1,17 +1,15 @@
 # coding=utf-8
+import os
 from collections import namedtuple
+
+import xlrd
 
 import cast
 from coordination.models import (
     Period,
     Year
 )
-
-import model_interface
-
-import os
-import xlrd
-
+from coordination.scripts import model_interface
 
 ########################################################################################################################
 # Named tuples

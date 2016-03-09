@@ -2,7 +2,7 @@
 import django
 django.setup()
 
-import cast
+import coordination.scripts.populate.old.cast
 from coordination.models import (
     Classroom,
     Period,
@@ -12,9 +12,9 @@ from coordination.models import (
     TaughtSubject,
     Year,
 )
-import xls_interface
+import coordination.scripts.populate.old.xls_interface
 
-import coordination.scripts.populate.old.model_interface as model_interface
+import coordination.scripts.model_interface as model_interface
 
 
 def create_classroom(
@@ -25,7 +25,7 @@ def create_classroom(
         quarter,
         leader=None
 ):
-    tutor_name = xls_interface.read_tutor_name(career, degree, file_type, identifier, quarter)
+    tutor_name = coordination.scripts.populate.old.xls_interface.read_tutor_name(career, degree, file_type, identifier, quarter)
     professor = model_interface.get_professor(tutor_name)
 
     try:
@@ -51,7 +51,7 @@ def create_group_from_academic_load(
         quarter
 ):
 
-    file_type = cast.FileType.academic_load
+    file_type = coordination.scripts.populate.old.cast.FileType.academic_load
 
     if degree == model_interface.get_classroom_degree(1):
         students = create_students(career, degree, file_type, generation, identifier, quarter)
@@ -66,8 +66,8 @@ def create_taught_subjects_from_professor_planning(
         career,
         quarter
 ):
-    file_type = cast.FileType.professor_planning
-    taught_subjects_data = xls_interface.read_taught_subjects(career=career, file_type=file_type, quarter=quarter)
+    file_type = coordination.scripts.populate.old.cast.FileType.professor_planning
+    taught_subjects_data = coordination.scripts.populate.old.xls_interface.read_taught_subjects(career=career, file_type=file_type, quarter=quarter)
 
     for professor in Professor.objects.all():
         professor.active = False
@@ -107,7 +107,7 @@ def create_students(
         identifier,
         quarter
 ):
-    students_data = xls_interface.read_students_data(career, degree, file_type, identifier, quarter)
+    students_data = coordination.scripts.populate.old.xls_interface.read_students_data(career, degree, file_type, identifier, quarter)
 
     students = []
     try:
@@ -134,7 +134,7 @@ def find_students(
         identifier,
         quarter
 ):
-    students_data = xls_interface.read_students_data(career, degree, file_type, identifier, quarter)
+    students_data = coordination.scripts.populate.old.xls_interface.read_students_data(career, degree, file_type, identifier, quarter)
 
     students = []
     try:
@@ -161,9 +161,9 @@ def register_students_in_classroom(
 
 
 def register_academic_loads_from_file(classroom):
-    file_type = cast.FileType.academic_load
+    file_type = coordination.scripts.populate.old.cast.FileType.academic_load
 
-    students_data = xls_interface.read_students_data(
+    students_data = coordination.scripts.populate.old.xls_interface.read_students_data(
         classroom.career,
         classroom.degree,
         file_type,
@@ -173,7 +173,7 @@ def register_academic_loads_from_file(classroom):
 
     for student in classroom.student.all():
         student_data = search_student_in_students_data(students_data, student)
-        academic_load_data = xls_interface.read_student_academic_load_data(
+        academic_load_data = coordination.scripts.populate.old.xls_interface.read_student_academic_load_data(
             classroom.career,
             classroom.degree,
             file_type,
@@ -222,13 +222,13 @@ def register_grades_from_grades_data(
         taught_subject = model_interface.get_taught_subject(classroom, subject)
         student_in_taught_subject = model_interface.get_student_in_taught_subject(student, taught_subject)
 
-        if data_type == cast.DataType.first_grade:
+        if data_type == coordination.scripts.populate.old.cast.DataType.first_grade:
             student_in_taught_subject.first_grade = entry.first_grade
-        elif data_type == cast.DataType.second_grade:
+        elif data_type == coordination.scripts.populate.old.cast.DataType.second_grade:
             student_in_taught_subject.second_grade = entry.second_grade
-        elif data_type == cast.DataType.regular_grade:
+        elif data_type == coordination.scripts.populate.old.cast.DataType.regular_grade:
             student_in_taught_subject.regular_grade = entry.regular_grade
-        elif data_type == cast.DataType.final_grade:
+        elif data_type == coordination.scripts.populate.old.cast.DataType.final_grade:
             status = model_interface.get_taught_status(entry.status)
 
             student_in_taught_subject.taught_subject_status = status
@@ -243,24 +243,24 @@ def register_grades_from_summary(
         career,
         quarter
 ):
-    file_type = cast.FileType.grades_summary
+    file_type = coordination.scripts.populate.old.cast.FileType.grades_summary
 
-    data_type = cast.DataType.first_grade
-    grades_data = xls_interface.read_grades_data(career, data_type, file_type, quarter)
+    data_type = coordination.scripts.populate.old.cast.DataType.first_grade
+    grades_data = coordination.scripts.populate.old.xls_interface.read_grades_data(career, data_type, file_type, quarter)
     register_grades_from_grades_data(career, data_type, grades_data, quarter)
 
     if quarter.year != Year.objects.get(id=2013):
         if quarter.period != Period.objects.get(code='SD'):
-            data_type = cast.DataType.second_grade
-            grades_data = xls_interface.read_grades_data(career, data_type, file_type, quarter)
+            data_type = coordination.scripts.populate.old.cast.DataType.second_grade
+            grades_data = coordination.scripts.populate.old.xls_interface.read_grades_data(career, data_type, file_type, quarter)
             register_grades_from_grades_data(career, data_type, grades_data, quarter)
 
-            data_type = cast.DataType.regular_grade
-            grades_data = xls_interface.read_grades_data(career, data_type, file_type, quarter)
+            data_type = coordination.scripts.populate.old.cast.DataType.regular_grade
+            grades_data = coordination.scripts.populate.old.xls_interface.read_grades_data(career, data_type, file_type, quarter)
             register_grades_from_grades_data(career, data_type, grades_data, quarter)
 
-    data_type = cast.DataType.final_grade
-    grades_data = xls_interface.read_grades_data(career, data_type, file_type, quarter)
+    data_type = coordination.scripts.populate.old.cast.DataType.final_grade
+    grades_data = coordination.scripts.populate.old.xls_interface.read_grades_data(career, data_type, file_type, quarter)
     register_grades_from_grades_data(career, data_type, grades_data, quarter)
 
 

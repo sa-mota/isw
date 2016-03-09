@@ -5,8 +5,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'isw.settings')
 
 import cast
-import db_interface
-import model_interface
+from coordination.scripts import model_interface, db_interface
 
 
 def register_academic_loads(
