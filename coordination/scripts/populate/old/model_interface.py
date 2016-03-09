@@ -152,6 +152,24 @@ def get_state(name):
     return state
 
 
+def get_student(registration_number):
+    try:
+        student = Student.objects.get(registration_number=registration_number)
+    except ObjectDoesNotExist:
+        raise Exception('Estudiante no encontrado <{:d}>.'.format(registration_number))
+
+    return student
+
+
+def get_student_in_taught_subject(student, taught_subject):
+    try:
+        student_in_taught_subject = StudentInTaughtSubject.objects.get(student=student, taught_subject=taught_subject)
+    except ObjectDoesNotExist:
+        raise Exception('Estudiante en asignatura impartida no encontrado <{:s}, {:s}>.'.format(student, taught_subject))
+
+    return student_in_taught_subject
+
+
 def get_student_status(name):
     try:
         student_status = StudentStatus.objects.get(name=name)
@@ -168,6 +186,33 @@ def get_subject(name):
         raise Exception('Asignatura no encontrada <{:s}>.'.format(name))
 
     return subject
+
+
+def get_subject_opportunity(name):
+    try:
+        subject_opportunity = SubjectOpportunity.objects.get(name=name)
+    except ObjectDoesNotExist:
+        raise Exception('Oportunidad de asignatura no encontrada <{:s}>.'.format(name))
+
+    return subject_opportunity
+
+
+def get_taught_subject(classroom, subject):
+    try:
+        taught_subject = TaughtSubject.objects.get(classroom=classroom, subject=subject)
+    except ObjectDoesNotExist:
+        raise Exception('Asignatura impartida no encontrada <{:s}, {:s}>.'.format(classroom, subject))
+
+    return taught_subject
+
+
+def get_taught_status(name):
+    try:
+        taught_subject_status = TaughtSubjectStatus.objects.get(name=name)
+    except ObjectDoesNotExist:
+        raise Exception('Estado de asignatura impartida no encontrado <{:s}>.'.format(name))
+
+    return taught_subject_status
 
 
 def get_year(id):

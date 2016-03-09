@@ -3,6 +3,7 @@ from collections import namedtuple
 
 import cast
 from coordination.models import (
+    Period,
     Year
 )
 
@@ -35,6 +36,12 @@ def get_file_path(
 
         filename = '{:s}/{:s}{:s}-{:s}{:s}.xls'
         filename = filename.format(career.code, quarter.year, quarter.period.code, degree, identifier)
+        filename = filename.lower()
+    elif file_type == cast.FileType.grades_summary:
+        data_dir = 'clave/sac01po02-evaluacion-del-aprendizaje/concentrado/'
+
+        filename = '{:s}/{:s}{:s}.xls'
+        filename = filename.format(career.code, quarter.year, quarter.period.code)
         filename = filename.lower()
     elif file_type == cast.FileType.professor_planning:
         data_dir = 'clave/sac01po01-gestion-de-la-asignatura/sac01rg01-planeacion-cautrimestral-de-personal-docente/'
@@ -87,6 +94,52 @@ def get_headers_cells(
             ]
         else:
             raise Exception('¡Documento no soportado <{:s}>!'.format(year))
+    elif data_type == cast.DataType.first_grade:
+        if file_type == cast.FileType.grades_summary:
+            if year == 2013:
+                cells = cast.GradeData(
+                    absence=Point2D(8, 3),
+                    career=Point2D(4, 3),
+                    degree=Point2D(6, 3),
+                    final_grade=Point2D(-1, -1),
+                    first_grade=Point2D(7, 3),
+                    gender=Point2D(3, 3),
+                    identifier=Point2D(6, 3),
+                    professor=Point2D(11, 3),
+                    registration_number=Point2D(1, 3),
+                    regular_grade=Point2D(-1, -1),
+                    second_grade=Point2D(-1, -1),
+                    status=Point2D(-1, -1),
+                    student=Point2D(2, 3),
+                    subject=Point2D(5, 3)
+                )
+            else:
+                raise Exception('¡Año no soportado <{:d}>!'.format(year))
+        else:
+            raise Exception('¡Documento no soportado <{:s}>!¡'.format(year))
+    elif data_type == cast.DataType.final_grade:
+        if file_type == cast.FileType.grades_summary:
+            if year == 2013:
+                cells = cast.GradeData(
+                    absence=Point2D(9, 3),
+                    career=Point2D(4, 3),
+                    degree=Point2D(6, 3),
+                    final_grade=Point2D(8, 3),
+                    first_grade=Point2D(-1, -1),
+                    gender=Point2D(3, 3),
+                    identifier=Point2D(6, 3),
+                    professor=Point2D(15, 3),
+                    registration_number=Point2D(1, 3),
+                    regular_grade=Point2D(-1, -1),
+                    second_grade=Point2D(-1, -1),
+                    status=Point2D(11, 3),
+                    student=Point2D(2, 3),
+                    subject=Point2D(5, 3)
+                )
+            else:
+                raise Exception('¡Año no soportado <{:d}>!'.format(year))
+        else:
+            raise Exception('¡Documento no soportado <{:s}>!¡'.format(year))
     elif data_type == cast.DataType.students_list:
         if file_type == cast.FileType.academic_load:
             if year == 2013:
@@ -148,6 +201,28 @@ def get_sheet_name(
         if file_type == cast.FileType.academic_load:
             if quarter.year == Year.objects.get(id=2013):
                 sheet_name = 'T' + str(int(index))
+            else:
+                raise Exception('¡Año no soportado <{:d}>!'.format(quarter.year))
+        else:
+            raise Exception('¡Documento no soportado <{:s}>!'.format(file_type))
+    elif data_type == cast.DataType.final_grade:
+        if file_type == cast.FileType.grades_summary:
+            if quarter.year == Year.objects.get(id=2013):
+                if quarter.period == Period.objects.get(code='SD'):
+                    sheet_name = 'FINAL'
+                else:
+                    raise Exception('¡Periodo no soportado <{:s}>!'.format(quarter.period))
+            else:
+                raise Exception('¡Año no soportado <{:d}>!'.format(quarter.year))
+        else:
+            raise Exception('¡Documento no soportado <{:s}>!'.format(file_type))
+    elif data_type == cast.DataType.first_grade:
+        if file_type == cast.FileType.grades_summary:
+            if quarter.year == Year.objects.get(id=2013):
+                if quarter.period == Period.objects.get(code='SD'):
+                    sheet_name = 'PARCIAL 1'
+                else:
+                    raise Exception('¡Periodo no soportado <{:s}>!'.format(quarter.period))
             else:
                 raise Exception('¡Año no soportado <{:d}>!'.format(quarter.year))
         else:
@@ -244,6 +319,73 @@ def get_columns(cells):
     return columns
 
 
+def read_grades_data(
+        career,
+        data_type,
+        file_type,
+        quarter
+):
+    workbook = open_workbook(career, file_type, quarter)
+    worksheet = get_worksheet(data_type, file_type, quarter, workbook)
+
+    cells = get_headers_cells(data_type, file_type, quarter)
+
+    rows = read_up_to_empty(worksheet, cells.registration_number.y + 1, get_columns(cells), cells.registration_number.x)
+
+    career_index = 1
+    rows = [row for row in rows if row[career_index].upper() == career.code]
+
+    grades_data = cast.cast_rows_to_grades_data(rows)
+    return grades_data
+
+
+def read_rows(
+        worksheet,
+        cells,
+        num_rows_to_read
+):
+    data = []
+    first_cell = getattr(cells, cells._fields[0])
+
+    row = first_cell.y + 1
+    while row < first_cell.y + num_rows_to_read:
+        if row >= worksheet.nrows:
+            break
+
+        if worksheet.cell_type(row, first_cell.x) not in (xlrd.XL_CELL_EMPTY, xlrd.XL_CELL_BLANK):
+            tmp = []
+            for field in cells._fields:
+                cell = getattr(cells, field)
+                tmp.append(worksheet.cell(row, cell.x).value)
+
+            data.append(tmp)
+
+        row += 1
+
+    return data
+
+
+def read_student_academic_load_data(
+        career,
+        degree,
+        file_type,
+        identifier,
+        student_data,
+        quarter
+):
+    data_type = cast.DataType.academic_load
+    workbook = open_workbook(career, file_type, quarter, degree, identifier)
+    worksheet = get_worksheet(data_type, file_type, quarter, workbook, index=student_data['number'])
+
+    cells = get_headers_cells(data_type, file_type, quarter)
+
+    num_rows_to_read = 9
+    rows = read_rows(worksheet, cells, num_rows_to_read)
+
+    academic_load_data = cast.cast_rows_to_academic_load_data(rows)
+    return academic_load_data
+
+
 def read_students_data(
         career,
         degree,
@@ -335,7 +477,10 @@ def read_up_to_empty(
 
         tmp = []
         for col in cols:
-            tmp.append(worksheet.cell(row, col).value)
+            if col < 0:
+                tmp.append(None)
+            else:
+                tmp.append(worksheet.cell(row, col).value)
 
         data.append(tmp)
         row += 1
