@@ -22,8 +22,10 @@ import coordination.views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^isw/$', TemplateView.as_view(template_name='isw.html'), name='isw'),	
+    url(r'^isw/$', TemplateView.as_view(template_name='isw.html'), name='isw'),
+
     url(r'^isw/calls/logo/$', TemplateView.as_view(template_name='isw/calls/logo.html'), name='isw-calls-logo'),
+    url(r'^isw/calls/2016/development-contest-ea/$', TemplateView.as_view(template_name='isw/calls/2016/development-contest-ea.html'), name='isw-calls-2016-development-contest-ea'),
 
     url(r'^sicpe/delete/career/(?P<pk>\d+)/$', coordination.views.DeleteCareerView.as_view(), name='careers-delete'),
     url(r'^sicpe/delete/classroom/(?P<pk>\d+)/$', coordination.views.DeleteClassroomView.as_view(), name='classrooms-delete'),
