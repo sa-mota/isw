@@ -1,0 +1,102 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}
+{% if student.id %}
+Editar Estudiante en Asignatura Impartida
+{% else %}
+Agregar Estudiante en Asignatura Impartida
+{% endif %}
+{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+<form action="{{ action }}" method="POST" class="no_print">
+    {% csrf_token %}
+
+    <table class="left">
+        <tr>
+            <td></td>
+            <td>{{ form.student.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.student.id_for_label }}">Estudiante: </label></td>
+            <td>{{ form.student }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.taught_subject.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.taught_subject.id_for_label }}">Asignatura impartida:</label></td>
+            <td>{{ form.taught_subject }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.taught_subject_status.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.taught_subject_status.id_for_label }}">Estado de asignatura impartida:</label></td>
+            <td>{{ form.taught_subject_status }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.opportunity.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.opportunity.id_for_label }}">Oportunidad: </label></td>
+            <td>{{ form.opportunity }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.first_grade.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.first_grade.id_for_label }}">Primer parcial: </label></td>
+            <td>{{ form.first_grade }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.second_grade.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.second_grade.id_for_label }}">Segundo parcial: </label></td>
+            <td>{{ form.second_grade }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.regular_grade.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.regular_grade.id_for_label }}">Regular: </label></td>
+            <td>{{ form.regular_grade }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form.final_grade.errors }}</td>
+        </tr>
+        <tr>
+            <td><label for="{{ form.final_grade.id_for_label }}">Final: </label></td>
+            <td>{{ form.final_grade }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit" class="form-icon"><i class="fa fa-plus-square"></i></button>
+                {% if student_in_taught_subject.id %}
+                    <a class="form-icon" href="{% url "student_in_taught_subjects-delete" pk=student_in_taught_subject.id %}"><i class="fa fa-trash"></i></a>
+                {% endif %}
+                <a class="form-icon" href="{% url "student_in_taught_subjects-list" %}"><i class="fa fa-arrow-circle-left"></i></a>
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

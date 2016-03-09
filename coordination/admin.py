@@ -127,6 +127,16 @@ class StudentAdmin(admin.ModelAdmin):
 admin.site.register(Student, StudentAdmin)
 
 
+class StudentInTaughtSubjectAdmin(admin.ModelAdmin):
+    list_display = (
+        'student',
+        'taught_subject',
+        'taught_subject_status',
+        'opportunity',
+    )
+admin.site.register(StudentInTaughtSubject, StudentInTaughtSubjectAdmin)
+
+
 class StudentStatusAdmin(admin.ModelAdmin):
     list_display = (
         'name',
@@ -144,6 +154,13 @@ class SubjectAdmin(admin.ModelAdmin):
 admin.site.register(Subject, SubjectAdmin)
 
 
+class SubjectOpportunityAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+    )
+admin.site.register(SubjectOpportunity, SubjectOpportunityAdmin)
+
+
 class TaughtSubjectAdmin(admin.ModelAdmin):
     list_display = (
         'subject',
@@ -151,6 +168,13 @@ class TaughtSubjectAdmin(admin.ModelAdmin):
         'professor',
     )
 admin.site.register(TaughtSubject, TaughtSubjectAdmin)
+
+
+class TaughtSubjectStatusAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+    )
+admin.site.register(TaughtSubjectStatus, TaughtSubjectStatusAdmin)
 
 
 class YearAdmin(admin.ModelAdmin):

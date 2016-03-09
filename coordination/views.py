@@ -13,6 +13,7 @@ from models import (
     Generation,
     Professor,
     Student,
+    StudentInTaughtSubject,
 )
 
 
@@ -94,6 +95,21 @@ class CreateStudentView(CreateView):
         return context
 
 
+class CreateStudentInTaughtSubjectView(CreateView):
+    fields = '__all__'
+    model = StudentInTaughtSubject
+    template_name = 'sicpe/edit/student-in-taught-subject.html'
+
+    def get_success_url(self):
+        return reverse('student-in-taught-subjects-list')
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateStudentInTaughtSubjectView, self).get_context_data(**kwargs)
+        context['action'] = reverse('student-in-taught-subjects-new')
+
+        return context
+
+
 ########################################################################################################################
 # Delete views
 ########################################################################################################################
@@ -135,6 +151,14 @@ class DeleteStudentView(DeleteView):
 
     def get_success_url(self):
         return reverse('students-list')
+
+
+class DeleteStudentInTaughtSubjectView(DeleteView):
+    model = Student
+    template_name = 'sicpe/delete/student-in-taught-subject.html'
+
+    def get_success_url(self):
+        return reverse('student-in-taught-subjects-list')
 
 
 ########################################################################################################################
@@ -180,6 +204,14 @@ class StudentView(DetailView):
         return reverse('students-view', kwargs={'pk': self.registration_number})
 
 
+class StudentInTaughtSubjectView(DetailView):
+    model = Student
+    template_name = 'sicpe/detail/student-in-taught-subject.html'
+
+    def get_absolute_url(self):
+        return reverse('student-in-taught-subjects-view', kwargs={'pk': self.id})
+
+
 ########################################################################################################################
 # List views
 ########################################################################################################################
@@ -206,6 +238,11 @@ class ListProfessorView(ListView):
 class ListStudentView(ListView):
     model = Student
     template_name = 'sicpe/list/student.html'
+
+
+class ListStudentInTaughtSubjectView(ListView):
+    model = StudentInTaughtSubject
+    template_name = 'sicpe/list/student-in-taught-subject.html'
 
 
 ########################################################################################################################
@@ -282,5 +319,20 @@ class UpdateStudentView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UpdateStudentView, self).get_context_data(**kwargs)
         context['action'] = reverse('students-edit', kwargs={'pk': self.get_object().registration_number})
+
+        return context
+
+
+class UpdateStudentInTaughtSubjectView(UpdateView):
+    fields = '__all__'
+    model = StudentInTaughtSubject
+    template_name = 'sicpe/edit/student-in-taught-subject.html'
+
+    def get_success_url(self):
+        return reverse('student-in-taught-subjects-list')
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateStudentInTaughtSubjectView, self).get_context_data(**kwargs)
+        context['action'] = reverse('student-in-taught-subjects-edit', kwargs={'pk': self.get_object().registration_number})
 
         return context

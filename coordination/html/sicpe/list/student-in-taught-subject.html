@@ -1,0 +1,94 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Lista de Estudiantes en Asignaturas Impartidas{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+{% if object_list %}
+    {% load staticfiles %}
+    <table class="report">
+        <tr>
+            <td colspan="6" class="left title">
+                Estudiantes  en Asignaturas Impartidas
+            </td>
+            <td colspan="2" rowspan="1">
+                <img class="logo" src="{% static 'images/header/logo-small.png' %}" alt="Logo">
+            </td>
+        </tr>
+
+        <tr class="header">
+            <th class="left long_column">Estudiante</th>
+            <th class="center">Asignatura</th>
+            <th class="center">Estado de asignatura</th>
+            <th class="center">Oportunidad</th>
+            <th class="center">Primer</th>
+            <th class="center">Segundo</th>
+            <th class="center">Regular</th>
+            <th class="center">Final</th>
+        </tr>
+
+        {% for student_in_taught_subject in object_list %}
+            <tr class="data">
+                <td class="left">
+                    <a href="{{ student_in_taught_subject.student.get_absolute_url }}">{{ student_in_taught_subject.student.name }}</a>
+                    <a href="{% url "student-in-taught-subjects-edit" pk=student_in_taught_subject.id %}"><i class="fa fa-edit"></i></a>
+                </td>
+                <td class="center">{{ student_in_taught_subject.taught_subject.subject.code }}</td>
+
+                {% if student_in_taught_subject.final_grade %}
+                    <td class="center">{{ student_in_taught_subject.taught_subject_status }}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+
+                <td class="center">{{ student_in_taught_subject.opportunity }}</td>
+
+                {% if student_in_taught_subject.first_grade %}
+                    {% if student_in_taught_subject.first_grade < 7.0 %}
+                        <td class="center not_approved">{{ student_in_taught_subject.first_grade|floatformat:2 }}</td>
+                    {% else %}
+                        <td class="center approved">{{ student_in_taught_subject.first_grade|floatformat:2 }}</td>
+                    {% endif %}
+                {% else %}
+                    <td></td>
+                {% endif %}
+
+                {% if student_in_taught_subject.second_grade %}
+                    {% if student_in_taught_subject.second_grade < 7.0 %}
+                        <td class="center not_approved">{{ student_in_taught_subject.second_grade|floatformat:2 }}</td>
+                    {% else %}
+                        <td class="center approved">{{ student_in_taught_subject.second_grade|floatformat:2 }}</td>
+                    {% endif %}
+                {% else %}
+                    <td></td>
+                {% endif %}
+
+                {% if student_in_taught_subject.regular_grade %}
+                    {% if student_in_taught_subject.regular_grade < 7.0 %}
+                        <td class="center not_approved">{{ student_in_taught_subject.regular_grade|floatformat:2 }}</td>
+                    {% else %}
+                        <td class="center approved">{{ student_in_taught_subject.regular_grade|floatformat:2 }}</td>
+                    {% endif %}
+                {% else %}
+                    <td></td>
+                {% endif %}
+
+                {% if student_in_taught_subject.final_grade %}
+                    {% if student_in_taught_subject.final_grade < 7.0 %}
+                        <td class="center not_approved">{{ student_in_taught_subject.final_grade|floatformat:2 }}</td>
+                    {% else %}
+                        <td class="center approved">{{ student_in_taught_subject.final_grade|floatformat:2 }}</td>
+                    {% endif %}
+                {% else %}
+                    <td></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No hay estudiantes en asignaturas impartidas registradas.</p>
+{% endif %}
+
+<a class="form-icon" href="{% url "student-in-taught-subjects-new" %}"><i class="fa fa-plus-square"></i></a>
+{% endblock %}

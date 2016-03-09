@@ -1,0 +1,57 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Detalle de Estudiante en Asignatura Impartida{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+{% load staticfiles %}
+<table class="report">
+    <tr>
+        <td colspan="2" class="no_show title">
+            Detalle de Estudiante en Asignatura Impartida
+            <img class="logo" src="{% static 'images/header/logo-small.png' %}" alt="Logo">
+        </td>
+    </tr>
+
+    <tr>
+        <th class="detail">Estudiante:</th>
+        <td class="detail">{{ student_in_taught_subject.student.name }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Asignatura:</th>
+        <td class="detail">{{ student_in_taught_subject.subject.name }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Estado:</th>
+        <td class="detail">{{ student_in_taught_subject.subject_status }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Oportunidad:</th>
+        <td class="detail">{{ student_in_taught_subject.opportunity }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Primer parcial:</th>
+        <td class="detail">{{ student_in_taught_subject.first_grade }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Segundo parcial:</th>
+        <td class="detail">{{ student_in_taught_subject.second_grade }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Regular:</th>
+        <td class="detail">{{ student_in_taught_subject.regular_grade }}</td>
+    </tr>
+
+    <tr>
+        <th class="detail">Final:</th>
+        <td class="detail">{{ student_in_taught_subject.final_grade }}</td>
+    </tr>
+</table>
+{% endblock %}

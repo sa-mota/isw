@@ -1,0 +1,16 @@
+{% extends "scipe-skeleton.html" %}
+
+{% block title %}Eliminar Estudiante en Asignatura Impartida{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block content %}
+<p>¿Esta seguro de que quiere eliminar el estudiante en asignatura ipartida {{ student_in_taught_subject }}?</p>
+
+<form action="{% url "students-delete" pk=student_in_taught_subject.id %}" method="POST">
+    {% csrf_token %}
+
+    <button type="submit" class="form-icon"><i class="fa fa-check-square"></i></button>
+    <a class="form-icon" href="{% url "student_in_taught_subjects-list" %}"><i class="fa fa-times-circle"></i></a>
+</form>
+{% endblock %}
