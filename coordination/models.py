@@ -1036,7 +1036,7 @@ class TaughtSubject(models.Model):
     def __unicode__(self):
         return u'{:s} {:s}'.format(
             self.subject,
-            self.group_identifier
+            self.classroom  
         )
 
 
