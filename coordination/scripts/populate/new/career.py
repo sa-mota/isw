@@ -2,6 +2,9 @@
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'isw.settings')
 
+import django
+django.setup()
+
 from coordination.models import Career
 
 
