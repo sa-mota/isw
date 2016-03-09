@@ -385,6 +385,10 @@ table.report th {
     width:          10%;
 }
 
+table.report td.approved {
+    color:  #333838;
+}
+
 table.report td.detail {
     width:  80%;
 }
@@ -392,6 +396,10 @@ table.report td.detail {
 table.report td.detail-list {
     line-height:    1.0;
     width:          80%;
+}
+
+table.report td.not_approved {
+    color:  #f03030;
 }
 
 table.report td.title,
